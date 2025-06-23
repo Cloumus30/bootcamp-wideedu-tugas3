@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" version="6.0">
+  <display-name>Web_Tugas</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.xhtml</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.xhtml</welcome-file>
+  </welcome-file-list>
+  
+  <security-constraint>
+  	<web-resource-collection>
+  		<web-resource-name>admin_security</web-resource-name>
+  		<url-pattern>/products/*</url-pattern>
+  	</web-resource-collection>
+  	
+  	<auth-constraint>
+  		<role-name>admin_role</role-name>
+  	</auth-constraint>
+  </security-constraint>
+  
+  <login-config>
+  	<auth-method>BASIC</auth-method>
+  	<realm-name>file</realm-name>
+  </login-config>
+  
+  <security-role>
+   <role-name>admin_role</role-name>
+  </security-role>
+  
+</web-app>
