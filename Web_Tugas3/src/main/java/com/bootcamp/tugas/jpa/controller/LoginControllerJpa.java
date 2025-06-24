@@ -1,4 +1,4 @@
-package com.bootcamp.tugas1.servlet;
+package com.bootcamp.tugas.jpa.controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -11,16 +11,16 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class LoginControllerJpa
  */
-@WebServlet("/login")
-public class LoginController extends HttpServlet {
+@WebServlet("/jpa/login")
+public class LoginControllerJpa extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public LoginControllerJpa() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,7 +29,7 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("../Login.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -45,12 +45,12 @@ public class LoginController extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("customer_name", "Cloudias Imani Pradana");
 			session.setAttribute("address", "Jawa Timur Indonesia");
-			
+			System.out.println(session.getAttribute(username));
 			response.sendRedirect("product-list");
 			return;
 		}
 		request.setAttribute("login_message", "Credentials does not match, Login Failed");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("../Login.jsp");
 		dispatcher.forward(request, response);
 	}
 

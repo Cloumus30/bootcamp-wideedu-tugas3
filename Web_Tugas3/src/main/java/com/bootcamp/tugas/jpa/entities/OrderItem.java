@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "order_items")
@@ -29,16 +30,34 @@ public class OrderItem {
 	@Column(name = "quantity")
 	private int quantity;
 	
+	@Column(name = "is_deleted")
+	@NotNull
+	private boolean isDeleted = false;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Product product;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Order order;
 	
+	@Override
+	public String toString() {
+		return "OrderItem [id=" + id + ", productName=" + productName + ", type=" + type + ", price=" + price
+				+ ", quantity=" + quantity + "]";
+	}
+
 	public OrderItem() {
 		
 	}
-
+	
+	public OrderItem(String productName, String type, double price, int quantity) {
+		super();
+		this.productName = productName;
+		this.type = type;
+		this.price = price;
+		this.quantity = quantity;
+	}
+	
 	public OrderItem(String productName, String type, double price, int quantity, Product product) {
 		super();
 		this.productName = productName;

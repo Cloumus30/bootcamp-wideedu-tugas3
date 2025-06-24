@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,13 +49,15 @@ body{
 					<div style="margin-bottom: 8px;">
 						<label >Type: </label>
 						<select name="type" disabled>
-							<option selected value="${product.typeId}">${product.type.name}</option>
+							<option selected value="${product.type.id}">${product.type.name}</option>
 						</select>
 						<input type="hidden" readonly value="${product.type.name}" name="type">
 					</div>
 					<div style="margin-bottom: 20px;">
 						<label >Price: </label>
-						<input class="numberFormated" type="number" name="price" value="${product.price}" readonly>
+						<fmt:formatNumber value="${product.price}" pattern="#,###.##" var="pat" /> 
+						<input class="numberFormated" type="text" value="${pat}" readonly>
+						<input class="numberFormated" type="number" name="price" value="${product.price}" hidden>
 					</div>
 					
 					<div align="right" style="margin-bottom: 10px;">

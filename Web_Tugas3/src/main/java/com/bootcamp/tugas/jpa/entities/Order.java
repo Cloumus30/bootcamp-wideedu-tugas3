@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "orders")
@@ -31,10 +32,21 @@ public class Order {
 	@Column(name="total")
 	private double total;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@Column(name = "is_deleted")
+	@NotNull
+	private boolean isDeleted = false;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "order_id")
 	private List<OrderItem> orderItems = new ArrayList<OrderItem>();
 	
+	public Order() {}
+
+	public Order(String customerName, String address) {
+		super();
+		this.customerName = customerName;
+		this.address = address;
+	}
 
 	public int getId() {
 		return id;

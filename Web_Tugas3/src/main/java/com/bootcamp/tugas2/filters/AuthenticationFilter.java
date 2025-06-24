@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * Servlet Filter implementation class AuthenticationFilter
  */
-@WebFilter("/product-list/*")
+@WebFilter("/jpa/product-list/*")
 public class AuthenticationFilter extends HttpFilter implements Filter {
        
     /**
@@ -45,9 +45,10 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession session = httpRequest.getSession();
 		String customerName = (String) session.getAttribute("customer_name");
+		System.out.println(customerName);
 		if(customerName == null) {
 			httpRequest.setAttribute("login_message", "Please Login To Access");
-			httpRequest.getRequestDispatcher("Login.jsp").forward(httpRequest, response);
+			httpRequest.getRequestDispatcher("../Login.jsp").forward(httpRequest, response);
 			return;
 		}
 
