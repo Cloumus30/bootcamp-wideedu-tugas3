@@ -9,23 +9,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import com.bootcamp.tugas1.entities.Product;
 import com.bootcamp.tugas1.entities.Type;
 
+import jakarta.annotation.Resource;
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class ProductRepository {
-	
-	protected Connection connection;
-	
-	public ProductRepository(Connection connection){
-		this.connection = connection;
-	}
+	@Resource(lookup = "jdbc/edu")
+	protected DataSource ds;
 	
 	public List<Product> findAll() throws SQLException{
 		List<Product> products = new ArrayList<Product>();
 		String query = "select p.id as product_id, p.name as product_name, p.type_id, p.price as product_price, t.name as type_name from products p\r\n"
 				+ "left join types t on t.id = p.type_id where p.is_deleted=0";
 		
-			PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+			Connection connection = ds.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			ResultSet result = preparedStatement.executeQuery();
 			
 			while (result.next()) {
@@ -34,7 +37,7 @@ public class ProductRepository {
 				
 				products.add(product);
 			}
-		this.connection.close();
+		connection.close();
 		return products;
 	}
 	
@@ -43,7 +46,8 @@ public class ProductRepository {
 				+ "left join types t on t.id = p.type_id where p.id = ? and p.is_deleted=0";
 		Product product = null;
 		
-		PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+		Connection connection = ds.getConnection();
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setInt(1, productId);
 		ResultSet result = preparedStatement.executeQuery();
 		
@@ -59,7 +63,8 @@ public class ProductRepository {
 		int result = 0;
 		String query = "INSERT INTO products (name, type_id, price) VALUES (?, ?, ?)";
 		
-		PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+		Connection connection = ds.getConnection();
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setString(1, product.getName());
 		preparedStatement.setInt(2, product.getTypeId());
 		preparedStatement.setDouble(3, product.getPrice());
@@ -73,7 +78,8 @@ public class ProductRepository {
 		int result = 0;
 		String query = "UPDATE products SET name = ?, type_id = ?, price = ? where id = ? and is_deleted=0";
 		
-		PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+		Connection connection = ds.getConnection();
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setString(1, product.getName());
 		preparedStatement.setInt(2, product.getTypeId());
 		preparedStatement.setDouble(3, product.getPrice());
@@ -87,7 +93,8 @@ public class ProductRepository {
 		int result = 0;
 		String query = "UPDATE products SET is_deleted=1 where id = ?";
 		
-		PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+		Connection connection = ds.getConnection();
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setInt(1, productId);
 		result = preparedStatement.executeUpdate();
 		

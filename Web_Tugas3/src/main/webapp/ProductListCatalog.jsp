@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,7 +79,8 @@
 					<c:out value="${product.type.name}"></c:out>
 				</th>
 				<th>
-					<c:out value="${product.price}"></c:out>
+					<fmt:formatNumber value="${product.price}" pattern="#,###.##" var="pat" /> 
+					<c:out value="${pat }"></c:out>
 				</th>
 				<th class="flex-container justify-content-around">
 					<a href="products?action=form-view&product=${product.id}">View</a>
